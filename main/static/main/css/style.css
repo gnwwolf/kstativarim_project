@@ -1,0 +1,814 @@
+/* ========================================
+   БАЗОВЫЕ СТИЛИ ДЛЯ САЙТА "КСТАТИ ВАРИМ"
+   ======================================== */
+
+:root {
+    --primary-color: #F8F9FA;
+    --secondary-color: #565656;
+    --accent-color: #8E8E8E;
+    --metal-titan: #E8E8E8;
+    --color-victory-blue: #6AB0E8;
+    --color-victory-purple: #9D7BDE;
+    --color-victory-green: #5CB85C;
+    --color-victory-gold: #FFD700;
+    --text-color: #2C3E50;
+    --light-gray: #ECF0F1;
+    --gray: #BDC3C7;
+    --dark-gray: #7F8C8D;
+    --emergency-color: #E74C3C;
+    --success-color: #27AE60;
+    --dark-bg: #2C3E50;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-color);
+    background-color: var(--primary-color);
+    line-height: 1.6;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+a {
+    text-decoration: none;
+    color: var(--color-victory-blue);
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    color: var(--color-victory-purple);
+}
+
+/* ========================================
+   КНОПКИ
+   ======================================== */
+
+.btn {
+    display: inline-block;
+    padding: 12px 25px;
+    background: linear-gradient(135deg, var(--color-victory-blue), var(--color-victory-purple));
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    text-align: center;
+    font-family: inherit;
+}
+
+.btn:hover {
+    background: linear-gradient(135deg, var(--color-victory-purple), var(--color-victory-green));
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid var(--color-victory-blue);
+    color: var(--color-victory-blue);
+}
+
+.btn-outline:hover {
+    background: var(--color-victory-blue);
+    color: white;
+}
+
+.btn-small {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+}
+
+.btn-large {
+    padding: 15px 30px;
+    font-size: 1.1rem;
+}
+
+.btn-emergency {
+    background: linear-gradient(135deg, var(--emergency-color), #C0392B);
+}
+
+.btn-call {
+    background: linear-gradient(135deg, var(--color-victory-green), var(--color-victory-blue));
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* ========================================
+   ШАПКА САЙТА
+   ======================================== */
+
+.header {
+    background-color: var(--metal-titan);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid var(--gray);
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.navbar-brand i {
+    margin-right: 10px;
+    color: var(--color-victory-blue);
+}
+
+.navbar-brand span {
+    background: linear-gradient(135deg, var(--color-victory-blue), var(--color-victory-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nav-link {
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--color-victory-blue !important);
+}
+
+/* ========================================
+   ГЛАВНАЯ СТРАНИЦА (HERO)
+   ======================================== */
+
+.hero {
+    background: linear-gradient(135deg, #2C3E50 0%, #1a252f 100%);
+    color: white;
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg,
+        rgba(106, 176, 232, 0.1) 0%,
+        rgba(157, 123, 222, 0.1) 25%,
+        rgba(92, 184, 92, 0.1) 50%,
+        rgba(255, 215, 0, 0.1) 75%);
+    animation: victoryShift 8s ease-in-out infinite;
+}
+
+@keyframes victoryShift {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.hero h1 {
+    font-size: 2.8rem;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero .lead {
+    font-size: 1.3rem;
+    margin-bottom: 30px;
+    opacity: 0.95;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* ========================================
+   КАРТОЧКИ (ПРЕИМУЩЕСТВА И УСЛУГИ)
+   ======================================== */
+
+.feature-card,
+.service-card {
+    background: white;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    height: 100%;
+    border: 1px solid var(--gray);
+}
+
+.feature-card {
+    padding: 30px 20px;
+    text-align: center;
+}
+
+.service-card {
+    padding: 30px 20px;
+    text-align: center;
+}
+
+.feature-card:hover,
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.feature-card i,
+.service-card i {
+    font-size: 3rem;
+    background: linear-gradient(135deg, var(--color-victory-blue), var(--color-victory-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 20px;
+}
+
+.feature-card h3,
+.service-card h3 {
+    margin-bottom: 15px;
+    font-size: 1.3rem;
+    color: var(--text-color);
+}
+
+.feature-card p,
+.service-card p {
+    color: var(--dark-gray);
+    line-height: 1.5;
+}
+
+/* ========================================
+   СТРАНИЦА УСЛУГ
+   ======================================== */
+
+.page-header {
+    background: linear-gradient(135deg, var(--metal-titan), var(--primary-color));
+    padding: 60px 0;
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--gray);
+}
+
+.page-header h1 {
+    background: linear-gradient(135deg, var(--color-victory-blue), var(--color-victory-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 2.5rem;
+    text-align: center;
+}
+
+.services-section {
+    background-color: var(--primary-color);
+    padding: 60px 0;
+}
+
+.service-category {
+    margin-bottom: 60px;
+}
+
+.service-category h2 {
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid var(--color-victory-blue);
+    padding-bottom: 10px;
+}
+
+.service-category h2 i {
+    margin-right: 15px;
+    font-size: 1.8rem;
+    color: var(--color-victory-blue);
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 25px;
+}
+
+/* ========================================
+   ГАЛЕРЕЯ РАБОТ
+   ======================================== */
+
+.gallery-section {
+    background-color: var(--primary-color);
+    padding: 60px 0;
+}
+
+.gallery-filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 40px;
+}
+
+.filter-btn {
+    padding: 10px 20px;
+    background: var(--metal-titan);
+    border: 2px solid var(--gray);
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.filter-btn:hover {
+    background: var(--color-victory-blue);
+    color: white;
+    border-color: var(--color-victory-blue);
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background: linear-gradient(135deg, var(--color-victory-blue), var(--color-victory-purple));
+    color: white;
+    border-color: transparent;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.gallery-item {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.gallery-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+.gallery-item .card-body {
+    padding: 15px;
+}
+
+.gallery-item .card-title {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+/* ========================================
+   СТРАНИЦА О КОМПАНИИ
+   ======================================== */
+
+.about-section {
+    padding: 60px 0;
+}
+
+.about-grid {
+    display: grid;
+    gap: 40px;
+}
+
+.about-text h2 {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.about-text p {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.values-list {
+    margin-top: 30px;
+    list-style: none;
+}
+
+.values-list li {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+}
+
+.values-list i {
+    color: var(--color-victory-green);
+    margin-right: 15px;
+    font-size: 1.2rem;
+}
+
+/* ========================================
+   СТРАНИЦА КОНТАКТОВ
+   ======================================== */
+
+.contact-section {
+    padding: 60px 0;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+}
+
+.contact-info h2 {
+    text-align: left;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+}
+
+.contact-info h2 i {
+    margin-right: 15px;
+    color: var(--color-victory-blue);
+}
+
+.contact-info p {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+}
+
+.contact-info i {
+    margin-right: 15px;
+    width: 25px;
+    color: var(--color-victory-blue);
+}
+
+.contact-card {
+    background: var(--metal-titan);
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid var(--gray);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.contact-form .form-group {
+    margin-bottom: 20px;
+}
+
+.contact-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--gray);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.contact-form input:focus,
+.contact-form select:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: var(--color-victory-blue);
+    box-shadow: 0 0 0 3px rgba(106, 176, 232, 0.1);
+}
+
+.contact-form textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.map-container {
+    margin-top: 50px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.map-container iframe {
+    width: 100%;
+    height: 400px;
+    border: none;
+}
+
+/* ========================================
+   ФОРМА ЗАКАЗА
+   ======================================== */
+
+.order-section {
+    padding: 60px 0;
+}
+
+.order-card {
+    background: var(--metal-titan);
+    padding: 40px;
+    border-radius: 12px;
+    border: 1px solid var(--gray);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.order-card h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* ========================================
+   ПОДВАЛ
+   ======================================== */
+
+.footer {
+    background: linear-gradient(135deg, #2C3E50, #1a252f);
+    color: white;
+    padding: 60px 0 0;
+    margin-top: 60px;
+}
+
+.footer h5 {
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+
+.footer p {
+    margin-bottom: 10px;
+    color: #BDC3C7;
+    display: flex;
+    align-items: center;
+}
+
+.footer i {
+    margin-right: 10px;
+    color: var(--color-victory-blue);
+    width: 25px;
+}
+
+.social-links a {
+    color: #BDC3C7;
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    color: var(--color-victory-blue);
+    transform: translateY(-2px);
+}
+
+.footer-bottom {
+    border-top: 1px solid #34495E;
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #BDC3C7;
+    font-size: 0.9rem;
+}
+
+/* ========================================
+   СООБЩЕНИЯ (MESSAGES)
+   ======================================== */
+
+.alert {
+    border-radius: 8px;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* ========================================
+   АДАПТИВНОСТЬ
+   ======================================== */
+
+@media (max-width: 992px) {
+    .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero {
+        padding: 60px 0;
+    }
+
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+
+    .hero .lead {
+        font-size: 1rem;
+    }
+
+    .hero-buttons .btn {
+        width: 100%;
+        max-width: 250px;
+        margin: 5px 0;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .page-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .gallery-filters {
+        gap: 10px;
+    }
+
+    .filter-btn {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .service-category h2 {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .services-grid,
+    .gallery-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .feature-card,
+    .service-card {
+        padding: 25px 15px;
+    }
+
+    .order-card {
+        padding: 25px;
+    }
+
+    .contact-card {
+        padding: 20px;
+    }
+
+    .gallery-item img {
+        height: 200px;
+    }
+}
+
+/* ========================================
+   АНИМАЦИИ
+   ======================================== */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* ========================================
+   УЛУЧШЕНИЯ ДЛЯ ДОСТУПНОСТИ
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+a:focus,
+button:focus,
+input:focus,
+textarea:focus {
+    outline: 2px solid var(--color-victory-blue);
+    outline-offset: 2px;
+}
+
+/* ========================================
+   ПОЛНОЭКРАННЫЙ ПРОСМОТР ДЛЯ ГАЛЕРЕИ
+   ======================================== */
+
+.fullscreen-modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95);
+}
+
+.fullscreen-content {
+    margin: auto;
+    display: block;
+    max-width: 95%;
+    max-height: 95%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 8px;
+}
+
+.close-fullscreen {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 2001;
+    background: rgba(0, 0, 0, 0.5);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-fullscreen:hover {
+    color: var(--color-victory-blue);
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.image-caption {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 15px 25px;
+    border-radius: 8px;
+    max-width: 80%;
+}
+

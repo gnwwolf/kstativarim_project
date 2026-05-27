@@ -1,0 +1,82 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}Кстати варим - Профессиональные сварочные работы{% endblock %}
+
+{% block content %}
+<!-- Герой-баннер -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-content text-center">
+            <h1>Профессиональные сварочные работы любой сложности</h1>
+            <p class="lead">Качественный ремонт автомобилей и изготовление металлоконструкций</p>
+            <div class="hero-buttons">
+                <a href="{% url 'main:order' %}" class="btn btn-primary btn-lg">
+                    <i class="fas fa-phone"></i> Сделать заказ
+                </a>
+                <a href="{% url 'main:services' %}" class="btn btn-outline-light btn-lg">
+                    Наши услуги
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Преимущества -->
+<section class="features py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Почему выбирают нас</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <i class="fas fa-medal"></i>
+                    <h3>Качество гарантируем</h3>
+                    <p>Работаем на совесть, используем профессиональное оборудование</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <i class="fas fa-bolt"></i>
+                    <h3>Быстро и надежно</h3>
+                    <p>Выполняем работы в оговоренные сроки без задержек</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <i class="fas fa-ruble-sign"></i>
+                    <h3>Доступные цены</h3>
+                    <p>Работаем без посредников, цены ниже чем у крупных сервисов</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Основные услуги -->
+<section class="main-services bg-light py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Наши основные услуги</h2>
+        <div class="row g-4">
+            {% for service in services %}
+            <div class="col-md-4">
+                <div class="service-card">
+                    <i class="fas {% if service.icon %}{{ service.icon }}{% else %}fa-tools{% endif %}"></i>
+                    <h3>{{ service.title }}</h3>
+                    <p>{{ service.description|truncatechars:100 }}</p>
+                    <a href="{% url 'main:order_service' service.id %}" class="btn btn-outline-primary mt-2">
+                        Заказать
+                    </a>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p>Услуги добавляются...</p>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'main:services' %}" class="btn btn-primary">Все услуги</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
