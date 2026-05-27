@@ -1,1 +1,1 @@
-web: gunicorn kstativarim.wsgi
+web: gunicorn kstativarim_project.wsgi
