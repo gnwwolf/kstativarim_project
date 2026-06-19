@@ -47,6 +47,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'kstativarim.wsgi.application'
 
+# ПОДКЛЮЧЕНИЕ К БАЗЕ ДАННЫХ RAILWAY
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -87,4 +88,3 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-EOF
