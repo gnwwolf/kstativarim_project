@@ -21,13 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-00ack15byd7-*r$!pq!-hr&gve)f%2q5+hpu^wb6wxr=4q*k8_'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 'True'
-
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-00ack15byd7-*r$!pq!-hr&gve)f%2q5+hpu^wb6wxr=4q*k8_')
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['https://*.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://*.railway.app', 'https://*.onrender.com']
 
 
 # Application definition
@@ -78,10 +75,10 @@ WSGI_APPLICATION = 'kstativarim.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('PGDATABASE', ''),
-        'USER': os.environ.get('PGUSER', ''),
+        'NAME': os.environ.get('PGDATABASE', 'postgres'),
+        'USER': os.environ.get('PGUSER', 'postgres'),
         'PASSWORD': os.environ.get('PGPASSWORD', ''),
-        'HOST': os.environ.get('PGHOST', ''),
+        'HOST': os.environ.get('PGHOST', 'localhost'),
         'PORT': os.environ.get('PGPORT', '5432'),
     }
 }
@@ -121,12 +118,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
+# Static files
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 LANGUAGE_CODE = 'ru-ru'
 TIME_ZONE = 'Asia/Vladivostok'
