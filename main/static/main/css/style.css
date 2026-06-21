@@ -314,84 +314,365 @@ a:hover {
 /* ========================================
    ГАЛЕРЕЯ РАБОТ
    ======================================== */
+/* ========================================
+   НОРМАЛЬНАЯ СЕТКА ГАЛЕРЕИ
+   ======================================== */
 
+/* ---------- ОБЩИЕ СТИЛИ ---------- */
 .gallery-section {
-    background-color: var(--primary-color);
     padding: 60px 0;
+    background: #f8f9fa;
 }
 
+.gallery-section h1 {
+    color: #2C3E50;
+    font-weight: 700;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+/* ---------- КНОПКИ ФИЛЬТРОВ ---------- */
 .gallery-filters {
     display: flex;
-    justify-content: center;
     flex-wrap: wrap;
-    gap: 15px;
+    justify-content: center;
+    gap: 10px;
     margin-bottom: 40px;
 }
 
 .filter-btn {
-    padding: 10px 20px;
-    background: var(--metal-titan);
-    border: 2px solid var(--gray);
-    border-radius: 25px;
+    padding: 10px 25px;
+    border: 2px solid #e0e0e0;
+    border-radius: 30px;
+    background: white;
+    color: #555;
+    font-size: 0.95rem;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-weight: 500;
-    color: var(--text-color);
 }
 
 .filter-btn:hover {
-    background: var(--color-victory-blue);
-    color: white;
-    border-color: var(--color-victory-blue);
+    background: #f0f0f0;
+    border-color: #6AB0E8;
     transform: translateY(-2px);
 }
 
 .filter-btn.active {
-    background: linear-gradient(135deg, var(--color-victory-blue), var(--color-victory-purple));
+    background: linear-gradient(135deg, #6AB0E8, #9D7BDE);
     color: white;
     border-color: transparent;
+    box-shadow: 0 4px 15px rgba(106, 176, 232, 0.3);
 }
+
+/* ---------- СЕТКА ГАЛЕРЕИ ---------- */
 .gallery-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 25px;
 }
 
-
-.gallery-item {
+/* ---------- КАРТОЧКА ГАЛЕРЕИ ---------- */
+.gallery-card {
+    background: white;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
-    background: white;
+    cursor: pointer;
 }
 
-.gallery-item:hover {
+.gallery-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
 }
 
-.gallery-item img {
+/* ---------- ИЗОБРАЖЕНИЕ ---------- */
+.gallery-card .image-wrapper {
     width: 100%;
-    height: 250px;
+    padding-top: 75%;
+    position: relative;
+    overflow: hidden;
+    background: #f0f0f0;
+}
+
+.gallery-card .image-wrapper img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     transition: transform 0.3s ease;
 }
 
-.gallery-item:hover img {
+.gallery-card:hover .image-wrapper img {
     transform: scale(1.05);
 }
 
-.gallery-item .card-body {
-    padding: 15px;
+/* Иконка увеличения */
+.gallery-card .image-wrapper .zoom-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    color: white;
+    font-size: 2.5rem;
+    opacity: 0;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
 }
 
-.gallery-item .card-title {
+.gallery-card:hover .image-wrapper .zoom-icon {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.8;
+}
+
+/* Затемнение при наведении */
+.gallery-card .image-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0);
+    transition: background 0.3s ease;
+    pointer-events: none;
+}
+
+.gallery-card:hover .image-wrapper::after {
+    background: rgba(0, 0, 0, 0.15);
+}
+
+/* ---------- ТЕКСТ КАРТОЧКИ ---------- */
+.gallery-card .card-body {
+    padding: 18px 20px 20px;
+}
+
+.gallery-card .card-title {
     font-size: 1.1rem;
+    font-weight: 600;
+    color: #2C3E50;
     margin-bottom: 5px;
 }
 
+.gallery-card .card-text {
+    color: #7F8C8D;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
 
+.gallery-card .badge {
+    font-size: 0.75rem;
+    padding: 5px 14px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #6AB0E8, #9D7BDE) !important;
+    color: white !important;
+    font-weight: 500;
+}
+
+/* ---------- 4 КОЛОНКИ ---------- */
+@media (max-width: 1200px) {
+    .gallery-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+}
+
+/* ---------- 3 КОЛОНКИ ---------- */
+@media (max-width: 992px) {
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    
+    .gallery-section {
+        padding: 40px 0;
+    }
+}
+
+/* ---------- 2 КОЛОНКИ ---------- */
+@media (max-width: 768px) {
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    .filter-btn {
+        padding: 8px 18px;
+        font-size: 0.85rem;
+    }
+    
+    .gallery-card .card-title {
+        font-size: 1rem;
+    }
+}
+
+/* ---------- 1 КОЛОНКА ---------- */
+@media (max-width: 576px) {
+    .gallery-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .gallery-card .image-wrapper {
+        padding-top: 65%;
+    }
+    
+    .gallery-card .card-body {
+        padding: 14px 16px 16px;
+    }
+    
+    .gallery-card .card-title {
+        font-size: 0.95rem;
+    }
+    
+    .gallery-filters {
+        gap: 6px;
+    }
+    
+    .filter-btn {
+        padding: 6px 14px;
+        font-size: 0.75rem;
+    }
+}
+
+/* ---------- АНИМАЦИЯ ПОЯВЛЕНИЯ ---------- */
+.gallery-item {
+    animation: fadeInUp 0.5s ease forwards;
+    opacity: 0;
+}
+
+.gallery-item:nth-child(1) { animation-delay: 0.05s; }
+.gallery-item:nth-child(2) { animation-delay: 0.10s; }
+.gallery-item:nth-child(3) { animation-delay: 0.15s; }
+.gallery-item:nth-child(4) { animation-delay: 0.20s; }
+.gallery-item:nth-child(5) { animation-delay: 0.25s; }
+.gallery-item:nth-child(6) { animation-delay: 0.30s; }
+.gallery-item:nth-child(7) { animation-delay: 0.35s; }
+.gallery-item:nth-child(8) { animation-delay: 0.40s; }
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---------- ПОЛНОЭКРАННЫЙ РЕЖИМ ---------- */
+.fullscreen-modal {
+    display: none;
+    position: fixed;
+    z-index: 99999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.92);
+    align-items: center;
+    justify-content: center;
+}
+
+.fullscreen-content {
+    max-width: 92%;
+    max-height: 85%;
+    object-fit: contain;
+    border-radius: 6px;
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.5);
+}
+
+.fullscreen-caption {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 1.2rem;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 12px 30px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 80%;
+    font-weight: 500;
+}
+
+.close-fullscreen {
+    position: fixed;
+    top: 25px;
+    right: 35px;
+    color: white;
+    font-size: 40px;
+    cursor: pointer;
+    z-index: 100000;
+    background: rgba(255, 255, 255, 0.1);
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.close-fullscreen:hover {
+    color: #ff4444;
+    background: rgba(255, 68, 68, 0.2);
+    border-color: #ff4444;
+    transform: rotate(90deg);
+}
+
+/* ---------- АДАПТИВНОСТЬ ПОЛНОЭКРАННОГО РЕЖИМА ---------- */
+@media (max-width: 768px) {
+    .fullscreen-content {
+        max-width: 95%;
+        max-height: 70%;
+    }
+    
+    .fullscreen-caption {
+        font-size: 1rem;
+        padding: 10px 20px;
+        bottom: 25px;
+        max-width: 90%;
+    }
+    
+    .close-fullscreen {
+        top: 15px;
+        right: 15px;
+        width: 45px;
+        height: 45px;
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 576px) {
+    .fullscreen-content {
+        max-width: 98%;
+        max-height: 60%;
+    }
+    
+    .fullscreen-caption {
+        font-size: 0.85rem;
+        padding: 8px 16px;
+        bottom: 15px;
+        max-width: 95%;
+    }
+    
+    .close-fullscreen {
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        font-size: 28px;
+    }
+}
 /* ========================================
    СТРАНИЦА О КОМПАНИИ
    ======================================== */
