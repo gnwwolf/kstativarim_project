@@ -10,107 +10,59 @@
 
         <!-- Фильтры -->
         <div class="gallery-filters text-center mb-4">
-            <button class="filter-btn active" data-filter="all">Все работы</button>
+            <button class="filter-btn btn btn-outline-primary active" data-filter="all">Все работы</button>
             {% for category in categories %}
-            <button class="filter-btn" data-filter="{{ category.code }}">
+            <button class="filter-btn btn btn-outline-primary" data-filter="{{ category.code }}">
                 {{ category.name_ru }}
             </button>
             {% endfor %}
         </div>
 
         <!-- Галерея -->
-        <div class="row">
+        <div class="gallery-grid row">
             {% for item in all_items %}
-            <div class="col-md-4 col-lg-3 mb-4 gallery-item" data-category="{{ item.category.code }}">
-                <div class="gallery-card" onclick="openFullscreen('{{ item.image.url }}', '{{ item.title }}')">
-                    <div class="image-wrapper">
-                        {% if item.image %}
-                        <img src="{{ item.image.url }}" alt="{{ item.title }}" loading="lazy">
-                        <div class="zoom-icon">
-                            <i class="fas fa-search-plus"></i>
-                        </div>
-                        {% else %}
-                        <div class="d-flex align-items-center justify-content-center h-100 text-muted">
-                            <i class="fas fa-image fa-3x"></i>
-                            <p class="mt-2">Нет изображения</p>
-                        </div>
-                        {% endif %}
-                    </div>
+            <div class="gallery-item col-md-4 col-lg-3 mb-4" data-category="{{ item.category.code }}">
+                <div class="card h-100 shadow-sm">
+                    <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.title }}" style="height: 200px; object-fit: cover;">
                     <div class="card-body">
                         <h5 class="card-title">{{ item.title }}</h5>
                         {% if item.description %}
-                        <p class="card-text small text-muted">{{ item.description|truncatechars:60 }}</p>
+                        <p class="card-text small">{{ item.description|truncatechars:80 }}</p>
                         {% endif %}
                         <span class="badge bg-secondary">{{ item.category.name_ru }}</span>
                     </div>
                 </div>
             </div>
             {% empty %}
-            <div class="col-12 text-center py-5">
-                <h3>Пока нет добавленных работ</h3>
-                <p class="text-muted">Добавьте работы через <a href="/admin/">админку</a></p>
+            <div class="col-12 text-center">
+                <p>Пока нет добавленных работ</p>
             </div>
             {% endfor %}
         </div>
     </div>
 </section>
 
-<!-- Модальное окно -->
-<div id="fullscreenModal" class="fullscreen-modal">
-    <span class="close-fullscreen" onclick="closeFullscreen()">&times;</span>
-    <img class="fullscreen-content" id="fullscreenImage" style="max-width:90%; max-height:85%;">
-    <div class="fullscreen-caption" id="fullscreenCaption"></div>
-</div>
+<section class="call-to-action bg-light py-5 text-center">
+    <div class="container">
+        <h2>Хотите такую же качественную работу?</h2>
+        <p>Позвоните нам и сделайте заказ</p>
+        <a href="tel:+79873790039" class="btn btn-primary btn-lg">
+            <i class="fas fa-phone"></i> Сделать заказ
+        </a>
+    </div>
+</section>
+
 <script>
-// // Функция открытия на весь экран
-// function openFullscreen(imageUrl, title) {
-//     console.log('✅ Открываем:', imageUrl, title);
-    
-//     const modal = document.getElementById('fullscreenModal');
-//     const img = document.getElementById('fullscreenImage');
-//     const caption = document.getElementById('fullscreenCaption');
-    
-//     if (!modal || !img || !caption) {
-//         console.error('❌ Элементы не найдены!');
-//         return;
-//     }
-    
-//     img.src = imageUrl;
-//     caption.textContent = title;
-//     modal.style.display = 'flex';
-//     document.body.style.overflow = 'hidden';
-// }
+// Фильтрация галереи
+document.querySelectorAll('.filter-btn').forEach(button => {
+    button.addEventListener('click', () => {
+        const filter = button.dataset.filter;
 
-// // Функция закрытия
-// function closeFullscreen() {
-//     const modal = document.getElementById('fullscreenModal');
-//     if (modal) {
-//         modal.style.display = 'none';
-//         document.body.style.overflow = 'auto';
-//     }
-// }
+        // Обновляем активную кнопку
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
 
-// // Закрытие по ESC
-// document.addEventListener('keydown', function(e) {
-//     if (e.key === 'Escape') {
-//         closeFullscreen();
-//     }
-// });
-
-// // Закрытие по клику вне картинки
-// document.getElementById('fullscreenModal').addEventListener('click', function(e) {
-//     if (e.target === this) {
-//         closeFullscreen();
-//     }
-// });
-
-// Фильтры
-document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        
-        const filter = this.dataset.filter;
+        // Фильтруем элементы
         document.querySelectorAll('.gallery-item').forEach(item => {
             if (filter === 'all' || item.dataset.category === filter) {
                 item.style.display = 'block';
@@ -120,7 +72,31 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
         });
     });
 });
-
-console.log('✅ Галерея загружена!');
 </script>
+
+    <!-- Полноэкранный просмотр -->
+    <div id="fullscreenModal" class="fullscreen-modal">
+        <span class="close-fullscreen" onclick="closeFullscreen()">&times;</span>
+        <img class="fullscreen-content" id="fullscreenImage">
+        <div class="image-caption" id="fullscreenCaption"></div>
+    </div>
+
+    <section class="call-to-action">
+        <div class="container">
+            <h2>Хотите такую же качественную работу?</h2>
+            <p>Позвоните нам и сделайте заказ</p>
+            <a href="tel:+79873790039" class="btn btn-large">
+                <i class="fas fa-phone"></i> Сделать заказ
+            </a>
+        </div>
+    </section>
+
+  
+
+    <script src="assets/Js/script.js"></script>
+
 {% endblock %}
+
+
+
+
