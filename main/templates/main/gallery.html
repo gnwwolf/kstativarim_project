@@ -62,47 +62,47 @@
     <div class="fullscreen-caption" id="fullscreenCaption"></div>
 </div>
 <script>
-// Функция открытия на весь экран
-function openFullscreen(imageUrl, title) {
-    console.log('✅ Открываем:', imageUrl, title);
+// // Функция открытия на весь экран
+// function openFullscreen(imageUrl, title) {
+//     console.log('✅ Открываем:', imageUrl, title);
     
-    const modal = document.getElementById('fullscreenModal');
-    const img = document.getElementById('fullscreenImage');
-    const caption = document.getElementById('fullscreenCaption');
+//     const modal = document.getElementById('fullscreenModal');
+//     const img = document.getElementById('fullscreenImage');
+//     const caption = document.getElementById('fullscreenCaption');
     
-    if (!modal || !img || !caption) {
-        console.error('❌ Элементы не найдены!');
-        return;
-    }
+//     if (!modal || !img || !caption) {
+//         console.error('❌ Элементы не найдены!');
+//         return;
+//     }
     
-    img.src = imageUrl;
-    caption.textContent = title;
-    modal.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-}
+//     img.src = imageUrl;
+//     caption.textContent = title;
+//     modal.style.display = 'flex';
+//     document.body.style.overflow = 'hidden';
+// }
 
-// Функция закрытия
-function closeFullscreen() {
-    const modal = document.getElementById('fullscreenModal');
-    if (modal) {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-    }
-}
+// // Функция закрытия
+// function closeFullscreen() {
+//     const modal = document.getElementById('fullscreenModal');
+//     if (modal) {
+//         modal.style.display = 'none';
+//         document.body.style.overflow = 'auto';
+//     }
+// }
 
-// Закрытие по ESC
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        closeFullscreen();
-    }
-});
+// // Закрытие по ESC
+// document.addEventListener('keydown', function(e) {
+//     if (e.key === 'Escape') {
+//         closeFullscreen();
+//     }
+// });
 
-// Закрытие по клику вне картинки
-document.getElementById('fullscreenModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closeFullscreen();
-    }
-});
+// // Закрытие по клику вне картинки
+// document.getElementById('fullscreenModal').addEventListener('click', function(e) {
+//     if (e.target === this) {
+//         closeFullscreen();
+//     }
+// });
 
 // Фильтры
 document.querySelectorAll('.filter-btn').forEach(btn => {
