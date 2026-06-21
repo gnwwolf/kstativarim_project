@@ -32,6 +32,7 @@
                         {% else %}
                         <div class="d-flex align-items-center justify-content-center h-100 text-muted">
                             <i class="fas fa-image fa-3x"></i>
+                            <p class="mt-2">Нет изображения</p>
                         </div>
                         {% endif %}
                     </div>
@@ -54,76 +55,72 @@
     </div>
 </section>
 
-<!-- Модальное окно для полноэкранного просмотра -->
+<!-- Модальное окно -->
 <div id="fullscreenModal" class="fullscreen-modal">
     <span class="close-fullscreen" onclick="closeFullscreen()">&times;</span>
-    <div class="fullscreen-loading" id="fullscreenLoading">
-        <i class="fas fa-spinner fa-spin"></i>
-    </div>
-    <img class="fullscreen-content" id="fullscreenImage" onload="hideLoading()">
+    <img class="fullscreen-content" id="fullscreenImage" style="max-width:90%; max-height:85%;">
     <div class="fullscreen-caption" id="fullscreenCaption"></div>
 </div>
-
 <script>
-// Открыть полноэкранный режим
+// Функция открытия на весь экран
 function openFullscreen(imageUrl, title) {
+    console.log('✅ Открываем:', imageUrl, title);
+    
     const modal = document.getElementById('fullscreenModal');
     const img = document.getElementById('fullscreenImage');
     const caption = document.getElementById('fullscreenCaption');
-    const loading = document.getElementById('fullscreenLoading');
     
-    modal.style.display = 'flex';
-    loading.style.display = 'block';
-    img.style.display = 'none';
+    if (!modal || !img || !caption) {
+        console.error('❌ Элементы не найдены!');
+        return;
+    }
+    
     img.src = imageUrl;
     caption.textContent = title;
+    modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
 }
 
-// Скрыть индикатор загрузки
-function hideLoading() {
-    document.getElementById('fullscreenLoading').style.display = 'none';
-    document.getElementById('fullscreenImage').style.display = 'block';
-}
-
-// Закрыть полноэкранный режим
+// Функция закрытия
 function closeFullscreen() {
     const modal = document.getElementById('fullscreenModal');
-    modal.style.display = 'none';
-    document.body.style.overflow = 'auto';
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
 }
 
-// Закрыть по клику вне изображения
-document.getElementById('fullscreenModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closeFullscreen();
-    }
-});
-
-// Закрыть по клавише ESC
+// Закрытие по ESC
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
         closeFullscreen();
     }
 });
 
-// Фильтрация галереи
-document.querySelectorAll('.filter-btn').forEach(button => {
-    button.addEventListener('click', function() {
-        const filter = this.dataset.filter;
-        
-        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+// Закрытие по клику вне картинки
+document.getElementById('fullscreenModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeFullscreen();
+    }
+});
+
+// Фильтры
+document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         this.classList.add('active');
         
+        const filter = this.dataset.filter;
         document.querySelectorAll('.gallery-item').forEach(item => {
             if (filter === 'all' || item.dataset.category === filter) {
                 item.style.display = 'block';
-                item.style.animation = 'fadeInUp 0.5s ease';
             } else {
                 item.style.display = 'none';
             }
         });
     });
 });
+
+console.log('✅ Галерея загружена!');
 </script>
 {% endblock %}
