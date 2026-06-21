@@ -10,9 +10,9 @@
 
         <!-- Фильтры -->
         <div class="gallery-filters text-center mb-4">
-            <button class="filter-btn btn btn-outline-primary active" data-filter="all">Все работы</button>
+            <button class="filter-btn active" data-filter="all">Все работы</button>
             {% for category in categories %}
-            <button class="filter-btn btn btn-outline-primary" data-filter="{{ category.code }}">
+            <button class="filter-btn" data-filter="{{ category.code }}">
                 {{ category.name_ru }}
             </button>
             {% endfor %}
@@ -26,6 +26,9 @@
                     <div class="image-wrapper">
                         {% if item.image %}
                         <img src="{{ item.image.url }}" alt="{{ item.title }}" loading="lazy">
+                        <div class="zoom-icon">
+                            <i class="fas fa-search-plus"></i>
+                        </div>
                         {% else %}
                         <div class="d-flex align-items-center justify-content-center h-100 text-muted">
                             <i class="fas fa-image fa-3x"></i>
@@ -54,7 +57,10 @@
 <!-- Модальное окно для полноэкранного просмотра -->
 <div id="fullscreenModal" class="fullscreen-modal">
     <span class="close-fullscreen" onclick="closeFullscreen()">&times;</span>
-    <img class="fullscreen-content" id="fullscreenImage">
+    <div class="fullscreen-loading" id="fullscreenLoading">
+        <i class="fas fa-spinner fa-spin"></i>
+    </div>
+    <img class="fullscreen-content" id="fullscreenImage" onload="hideLoading()">
     <div class="fullscreen-caption" id="fullscreenCaption"></div>
 </div>
 
@@ -64,11 +70,20 @@ function openFullscreen(imageUrl, title) {
     const modal = document.getElementById('fullscreenModal');
     const img = document.getElementById('fullscreenImage');
     const caption = document.getElementById('fullscreenCaption');
+    const loading = document.getElementById('fullscreenLoading');
     
     modal.style.display = 'flex';
+    loading.style.display = 'block';
+    img.style.display = 'none';
     img.src = imageUrl;
     caption.textContent = title;
     document.body.style.overflow = 'hidden';
+}
+
+// Скрыть индикатор загрузки
+function hideLoading() {
+    document.getElementById('fullscreenLoading').style.display = 'none';
+    document.getElementById('fullscreenImage').style.display = 'block';
 }
 
 // Закрыть полноэкранный режим
@@ -96,11 +111,14 @@ document.addEventListener('keydown', function(e) {
 document.querySelectorAll('.filter-btn').forEach(button => {
     button.addEventListener('click', function() {
         const filter = this.dataset.filter;
+        
         document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
         this.classList.add('active');
+        
         document.querySelectorAll('.gallery-item').forEach(item => {
             if (filter === 'all' || item.dataset.category === filter) {
                 item.style.display = 'block';
+                item.style.animation = 'fadeInUp 0.5s ease';
             } else {
                 item.style.display = 'none';
             }
