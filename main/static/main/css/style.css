@@ -373,9 +373,11 @@ a:hover {
 
 .gallery-item img {
     width: 100%;
-    height: 250px;
-    object-fit: cover;
+    height: auto;
+    max-height: 300px;
+    object-fit: contain;  /* или cover - в зависимости от желаемого эффекта */
     transition: transform 0.3s ease;
+    background-color: #f8f9fa;
 }
 
 .gallery-item:hover img {
