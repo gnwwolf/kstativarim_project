@@ -19,37 +19,28 @@
         </div>
 
         <!-- Галерея -->
-        <div class="gallery-grid row">
-            {% for item in all_items %}
-            <div class="gallery-item col-md-4 col-lg-3 mb-4" data-category="{{ item.category.code }}">
-                <div class="card h-100 shadow-sm">
-                    <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.title }}" style="height: 200px; object-fit: cover;">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ item.title }}</h5>
-                        {% if item.description %}
-                        <p class="card-text small">{{ item.description|truncatechars:80 }}</p>
-                        {% endif %}
-                        <span class="badge bg-secondary">{{ item.category.name_ru }}</span>
-                    </div>
-                </div>
+<div class="gallery-grid row">
+    {% for item in all_items %}
+    <div class="gallery-item col-md-4 col-lg-3 mb-4" data-category="{{ item.category.code }}">
+        <div class="card h-100 shadow-sm">
+            {% if item.image %}
+            <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.title }}" style="height: 200px; object-fit: cover;">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ item.title }}</h5>
+                {% if item.description %}
+                <p class="card-text small">{{ item.description|truncatechars:80 }}</p>
+                {% endif %}
+                <span class="badge bg-secondary">{{ item.category.name_ru }}</span>
             </div>
-            {% empty %}
-            <div class="col-12 text-center">
-                <p>Пока нет добавленных работ</p>
-            </div>
-            {% endfor %}
         </div>
     </div>
-</section>
-
-<section class="call-to-action bg-light py-5 text-center">
-    <div class="container">
-        <h2>Хотите такую же качественную работу?</h2>
-        <p>Позвоните нам и сделайте заказ</p>
-        <a href="tel:+79873790039" class="btn btn-primary btn-lg">
-            <i class="fas fa-phone"></i> Сделать заказ
-        </a>
+    {% empty %}
+    <div class="col-12 text-center">
+        <p>Пока нет добавленных работ</p>
     </div>
+    {% endfor %}
+</div>
 </section>
 
 <script>
