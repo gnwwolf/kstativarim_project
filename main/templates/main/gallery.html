@@ -19,29 +19,35 @@
         </div>
 
         <!-- Галерея -->
-<div class="gallery-grid row">
+<div class="row">
     {% for item in all_items %}
-    <div class="gallery-item col-md-4 col-lg-3 mb-4" data-category="{{ item.category.code }}">
-        <div class="card h-100 shadow-sm">
-            {% if item.image %}
-            <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.title }}" style="height: 200px; object-fit: cover;">
-            {% endif %}
+    <div class="col-md-4 col-lg-3 mb-4 gallery-item" data-category="{{ item.category.code }}">
+        <div class="gallery-card">
+            <div class="image-wrapper">
+                {% if item.image %}
+                <img src="{{ item.image.url }}" alt="{{ item.title }}" loading="lazy">
+                {% else %}
+                <div class="d-flex align-items-center justify-content-center h-100 text-muted">
+                    <i class="fas fa-image fa-3x"></i>
+                </div>
+                {% endif %}
+            </div>
             <div class="card-body">
                 <h5 class="card-title">{{ item.title }}</h5>
                 {% if item.description %}
-                <p class="card-text small">{{ item.description|truncatechars:80 }}</p>
+                <p class="card-text small text-muted">{{ item.description|truncatechars:60 }}</p>
                 {% endif %}
                 <span class="badge bg-secondary">{{ item.category.name_ru }}</span>
             </div>
         </div>
     </div>
     {% empty %}
-    <div class="col-12 text-center">
-        <p>Пока нет добавленных работ</p>
+    <div class="col-12 text-center py-5">
+        <h3>Пока нет добавленных работ</h3>
+        <p class="text-muted">Добавьте работы через <a href="/admin/">админку</a></p>
     </div>
     {% endfor %}
 </div>
-</section>
 
 <script>
 // Фильтрация галереи
