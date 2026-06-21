@@ -315,85 +315,32 @@ a:hover {
    ГАЛЕРЕЯ РАБОТ
    ======================================== */
 /* ========================================
-   НОРМАЛЬНАЯ СЕТКА ГАЛЕРЕИ
+   ПОЛНОЭКРАННЫЙ ПРОСМОТР ДЛЯ ГАЛЕРЕИ
    ======================================== */
 
-/* ---------- ОБЩИЕ СТИЛИ ---------- */
-.gallery-section {
-    padding: 60px 0;
-    background: #f8f9fa;
-}
-
-.gallery-section h1 {
-    color: #2C3E50;
-    font-weight: 700;
-    margin-bottom: 40px;
-    text-align: center;
-}
-
-/* ---------- КНОПКИ ФИЛЬТРОВ ---------- */
-.gallery-filters {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 40px;
-}
-
-.filter-btn {
-    padding: 10px 25px;
-    border: 2px solid #e0e0e0;
-    border-radius: 30px;
-    background: white;
-    color: #555;
-    font-size: 0.95rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.filter-btn:hover {
-    background: #f0f0f0;
-    border-color: #6AB0E8;
-    transform: translateY(-2px);
-}
-
-.filter-btn.active {
-    background: linear-gradient(135deg, #6AB0E8, #9D7BDE);
-    color: white;
-    border-color: transparent;
-    box-shadow: 0 4px 15px rgba(106, 176, 232, 0.3);
-}
-
-/* ---------- СЕТКА ГАЛЕРЕИ ---------- */
-.gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 25px;
-}
-
-/* ---------- КАРТОЧКА ГАЛЕРЕИ ---------- */
+/* Карточка галереи - курсор указывает на кликабельность */
 .gallery-card {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
     cursor: pointer;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: white;
+    height: 100%;
 }
 
 .gallery-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
 }
 
-/* ---------- ИЗОБРАЖЕНИЕ ---------- */
+/* Контейнер для изображения с сохранением пропорций */
 .gallery-card .image-wrapper {
     width: 100%;
-    padding-top: 75%;
+    padding-top: 75%; /* 4:3 Aspect Ratio */
     position: relative;
     overflow: hidden;
-    background: #f0f0f0;
+    background: #f8f9fa;
 }
 
 .gallery-card .image-wrapper img {
@@ -403,28 +350,225 @@ a:hover {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    transition: transform 0.4s ease;
 }
 
 .gallery-card:hover .image-wrapper img {
-    transform: scale(1.05);
+    transform: scale(1.08);
 }
 
-/* Иконка увеличения */
-.gallery-card .image-wrapper .zoom-icon {
+/* Тело карточки */
+.gallery-card .card-body {
+    padding: 15px;
+}
+
+.gallery-card .card-title {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #2C3E50;
+}
+
+.gallery-card .card-text {
+    color: #7F8C8D;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.gallery-card .badge {
+    font-size: 0.8rem;
+    padding: 5px 12px;
+    border-radius: 20px;
+}
+
+/* ========================================
+   ПОЛНОЭКРАННОЕ МОДАЛЬНОЕ ОКНО
+   ======================================== */
+
+.fullscreen-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.92);
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.fullscreen-content {
+    max-width: 92%;
+    max-height: 85%;
+    object-fit: contain;
+    border-radius: 6px;
+    animation: zoomIn 0.3s ease;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+}
+
+/* Подпись под изображением */
+.fullscreen-caption {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 1.2rem;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 12px 30px;
+    border-radius: 8px;
+    text-align: center;
+    max-width: 80%;
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Кнопка закрытия */
+.close-fullscreen {
+    position: absolute;
+    top: 25px;
+    right: 35px;
+    color: white;
+    font-size: 45px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10000;
+    background: rgba(255, 255, 255, 0.1);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    user-select: none;
+    border: 2px solid rgba(255,255,255,0.2);
+}
+
+.close-fullscreen:hover {
+    color: #ff4444;
+    background: rgba(255, 68, 68, 0.2);
+    border-color: #ff4444;
+    transform: rotate(90deg);
+}
+
+/* Индикатор загрузки */
+.fullscreen-loading {
+    position: absolute;
+    color: white;
+    font-size: 2rem;
+    z-index: 9998;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* ========================================
+   АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ
+   ======================================== */
+
+@media (max-width: 768px) {
+    .fullscreen-content {
+        max-width: 95%;
+        max-height: 70%;
+    }
+    
+    .fullscreen-caption {
+        font-size: 0.95rem;
+        padding: 10px 20px;
+        bottom: 25px;
+        max-width: 90%;
+        width: auto;
+    }
+    
+    .close-fullscreen {
+        top: 15px;
+        right: 15px;
+        width: 50px;
+        height: 50px;
+        font-size: 35px;
+    }
+}
+
+@media (max-width: 576px) {
+    .gallery-card .image-wrapper {
+        padding-top: 100%; /* 1:1 Aspect Ratio на телефонах */
+    }
+    
+    .gallery-card .card-title {
+        font-size: 0.95rem;
+    }
+    
+    .fullscreen-content {
+        max-width: 98%;
+        max-height: 65%;
+    }
+    
+    .fullscreen-caption {
+        font-size: 0.85rem;
+        padding: 8px 16px;
+        bottom: 15px;
+        max-width: 95%;
+    }
+    
+    .close-fullscreen {
+        top: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        font-size: 28px;
+    }
+}
+
+/* ========================================
+   ДОПОЛНИТЕЛЬНЫЕ ЭФФЕКТЫ
+   ======================================== */
+
+/* Свечение при наведении на карточку */
+.gallery-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.02) 100%);
+    pointer-events: none;
+    border-radius: 8px;
+}
+
+/* Иконка увеличения при наведении */
+.gallery-card .zoom-icon {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
     color: white;
-    font-size: 2.5rem;
+    font-size: 3rem;
     opacity: 0;
     transition: all 0.3s ease;
-    text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 0 20px rgba(0,0,0,0.5);
     pointer-events: none;
+    z-index: 2;
 }
 
-.gallery-card:hover .image-wrapper .zoom-icon {
+.gallery-card:hover .zoom-icon {
     transform: translate(-50%, -50%) scale(1);
     opacity: 0.8;
 }
@@ -446,114 +590,48 @@ a:hover {
     background: rgba(0, 0, 0, 0.15);
 }
 
-/* ---------- ТЕКСТ КАРТОЧКИ ---------- */
-.gallery-card .card-body {
-    padding: 18px 20px 20px;
-}
+/* ========================================
+   КНОПКИ ФИЛЬТРОВ
+   ======================================== */
 
-.gallery-card .card-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #2C3E50;
-    margin-bottom: 5px;
-}
-
-.gallery-card .card-text {
-    color: #7F8C8D;
+.filter-btn {
+    padding: 8px 20px;
+    margin: 3px;
+    border-radius: 25px;
+    border: 2px solid #e0e0e0;
+    background: white;
+    color: #555;
+    transition: all 0.3s ease;
+    cursor: pointer;
     font-size: 0.9rem;
-    line-height: 1.5;
-    margin-bottom: 10px;
 }
 
-.gallery-card .badge {
-    font-size: 0.75rem;
-    padding: 5px 14px;
-    border-radius: 20px;
-    background: linear-gradient(135deg, #6AB0E8, #9D7BDE) !important;
-    color: white !important;
-    font-weight: 500;
+.filter-btn:hover {
+    background: #f0f0f0;
+    border-color: #6AB0E8;
+    transform: translateY(-2px);
 }
 
-/* ---------- 4 КОЛОНКИ ---------- */
-@media (max-width: 1200px) {
-    .gallery-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-    }
+.filter-btn.active {
+    background: linear-gradient(135deg, #6AB0E8, #9D7BDE);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 15px rgba(106, 176, 232, 0.3);
 }
 
-/* ---------- 3 КОЛОНКИ ---------- */
-@media (max-width: 992px) {
-    .gallery-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-    }
-    
-    .gallery-section {
-        padding: 40px 0;
-    }
+/* ========================================
+   СЕТКА ГАЛЕРЕИ
+   ======================================== */
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
 }
 
-/* ---------- 2 КОЛОНКИ ---------- */
-@media (max-width: 768px) {
-    .gallery-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
-    }
-    
-    .filter-btn {
-        padding: 8px 18px;
-        font-size: 0.85rem;
-    }
-    
-    .gallery-card .card-title {
-        font-size: 1rem;
-    }
-}
-
-/* ---------- 1 КОЛОНКА ---------- */
-@media (max-width: 576px) {
-    .gallery-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
-    }
-    
-    .gallery-card .image-wrapper {
-        padding-top: 65%;
-    }
-    
-    .gallery-card .card-body {
-        padding: 14px 16px 16px;
-    }
-    
-    .gallery-card .card-title {
-        font-size: 0.95rem;
-    }
-    
-    .gallery-filters {
-        gap: 6px;
-    }
-    
-    .filter-btn {
-        padding: 6px 14px;
-        font-size: 0.75rem;
-    }
-}
-
-/* ---------- АНИМАЦИЯ ПОЯВЛЕНИЯ ---------- */
 .gallery-item {
-    animation: fadeInUp 0.5s ease forwards;
-    opacity: 0;
+    animation: fadeInUp 0.5s ease;
 }
-
-.gallery-item:nth-child(1) { animation-delay: 0.05s; }
-.gallery-item:nth-child(2) { animation-delay: 0.10s; }
-.gallery-item:nth-child(3) { animation-delay: 0.15s; }
-.gallery-item:nth-child(4) { animation-delay: 0.20s; }
-.gallery-item:nth-child(5) { animation-delay: 0.25s; }
-.gallery-item:nth-child(6) { animation-delay: 0.30s; }
-.gallery-item:nth-child(7) { animation-delay: 0.35s; }
-.gallery-item:nth-child(8) { animation-delay: 0.40s; }
 
 @keyframes fadeInUp {
     from {
@@ -563,114 +641,6 @@ a:hover {
     to {
         opacity: 1;
         transform: translateY(0);
-    }
-}
-
-/* ---------- ПОЛНОЭКРАННЫЙ РЕЖИМ ---------- */
-.fullscreen-modal {
-    display: none;
-    position: fixed;
-    z-index: 99999;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.92);
-    align-items: center;
-    justify-content: center;
-}
-
-.fullscreen-content {
-    max-width: 92%;
-    max-height: 85%;
-    object-fit: contain;
-    border-radius: 6px;
-    box-shadow: 0 0 60px rgba(0, 0, 0, 0.5);
-}
-
-.fullscreen-caption {
-    position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
-    font-size: 1.2rem;
-    background: rgba(0, 0, 0, 0.7);
-    padding: 12px 30px;
-    border-radius: 10px;
-    text-align: center;
-    max-width: 80%;
-    font-weight: 500;
-}
-
-.close-fullscreen {
-    position: fixed;
-    top: 25px;
-    right: 35px;
-    color: white;
-    font-size: 40px;
-    cursor: pointer;
-    z-index: 100000;
-    background: rgba(255, 255, 255, 0.1);
-    width: 55px;
-    height: 55px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-}
-
-.close-fullscreen:hover {
-    color: #ff4444;
-    background: rgba(255, 68, 68, 0.2);
-    border-color: #ff4444;
-    transform: rotate(90deg);
-}
-
-/* ---------- АДАПТИВНОСТЬ ПОЛНОЭКРАННОГО РЕЖИМА ---------- */
-@media (max-width: 768px) {
-    .fullscreen-content {
-        max-width: 95%;
-        max-height: 70%;
-    }
-    
-    .fullscreen-caption {
-        font-size: 1rem;
-        padding: 10px 20px;
-        bottom: 25px;
-        max-width: 90%;
-    }
-    
-    .close-fullscreen {
-        top: 15px;
-        right: 15px;
-        width: 45px;
-        height: 45px;
-        font-size: 32px;
-    }
-}
-
-@media (max-width: 576px) {
-    .fullscreen-content {
-        max-width: 98%;
-        max-height: 60%;
-    }
-    
-    .fullscreen-caption {
-        font-size: 0.85rem;
-        padding: 8px 16px;
-        bottom: 15px;
-        max-width: 95%;
-    }
-    
-    .close-fullscreen {
-        top: 10px;
-        right: 10px;
-        width: 40px;
-        height: 40px;
-        font-size: 28px;
     }
 }
 /* ========================================
