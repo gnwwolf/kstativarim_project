@@ -22,7 +22,7 @@
         <div class="row">
             {% for item in all_items %}
             <div class="col-md-4 col-lg-3 mb-4 gallery-item" data-category="{{ item.category.code }}">
-
+                <div class="gallery-card" onclick="openFullscreen('{{ item.image.url }}', '{{ item.title }}')">
                     <div class="image-wrapper">
                         {% if item.image %}
                         <img src="{{ item.image.url }}" alt="{{ item.title }}" loading="lazy">
