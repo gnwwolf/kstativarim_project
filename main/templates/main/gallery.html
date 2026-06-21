@@ -19,47 +19,85 @@
         </div>
 
         <!-- Галерея -->
-<div class="row">
-    {% for item in all_items %}
-    <div class="col-md-4 col-lg-3 mb-4 gallery-item" data-category="{{ item.category.code }}">
-        <div class="gallery-card">
-            <div class="image-wrapper">
-                {% if item.image %}
-                <img src="{{ item.image.url }}" alt="{{ item.title }}" loading="lazy">
-                {% else %}
-                <div class="d-flex align-items-center justify-content-center h-100 text-muted">
-                    <i class="fas fa-image fa-3x"></i>
+        <div class="row">
+            {% for item in all_items %}
+            <div class="col-md-4 col-lg-3 mb-4 gallery-item" data-category="{{ item.category.code }}">
+                <div class="gallery-card" onclick="openFullscreen('{{ item.image.url }}', '{{ item.title }}')">
+                    <div class="image-wrapper">
+                        {% if item.image %}
+                        <img src="{{ item.image.url }}" alt="{{ item.title }}" loading="lazy">
+                        {% else %}
+                        <div class="d-flex align-items-center justify-content-center h-100 text-muted">
+                            <i class="fas fa-image fa-3x"></i>
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.title }}</h5>
+                        {% if item.description %}
+                        <p class="card-text small text-muted">{{ item.description|truncatechars:60 }}</p>
+                        {% endif %}
+                        <span class="badge bg-secondary">{{ item.category.name_ru }}</span>
+                    </div>
                 </div>
-                {% endif %}
             </div>
-            <div class="card-body">
-                <h5 class="card-title">{{ item.title }}</h5>
-                {% if item.description %}
-                <p class="card-text small text-muted">{{ item.description|truncatechars:60 }}</p>
-                {% endif %}
-                <span class="badge bg-secondary">{{ item.category.name_ru }}</span>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <h3>Пока нет добавленных работ</h3>
+                <p class="text-muted">Добавьте работы через <a href="/admin/">админку</a></p>
             </div>
+            {% endfor %}
         </div>
     </div>
-    {% empty %}
-    <div class="col-12 text-center py-5">
-        <h3>Пока нет добавленных работ</h3>
-        <p class="text-muted">Добавьте работы через <a href="/admin/">админку</a></p>
-    </div>
-    {% endfor %}
+</section>
+
+<!-- Модальное окно для полноэкранного просмотра -->
+<div id="fullscreenModal" class="fullscreen-modal">
+    <span class="close-fullscreen" onclick="closeFullscreen()">&times;</span>
+    <img class="fullscreen-content" id="fullscreenImage">
+    <div class="fullscreen-caption" id="fullscreenCaption"></div>
 </div>
 
 <script>
+// Открыть полноэкранный режим
+function openFullscreen(imageUrl, title) {
+    const modal = document.getElementById('fullscreenModal');
+    const img = document.getElementById('fullscreenImage');
+    const caption = document.getElementById('fullscreenCaption');
+    
+    modal.style.display = 'flex';
+    img.src = imageUrl;
+    caption.textContent = title;
+    document.body.style.overflow = 'hidden';
+}
+
+// Закрыть полноэкранный режим
+function closeFullscreen() {
+    const modal = document.getElementById('fullscreenModal');
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+// Закрыть по клику вне изображения
+document.getElementById('fullscreenModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeFullscreen();
+    }
+});
+
+// Закрыть по клавише ESC
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeFullscreen();
+    }
+});
+
 // Фильтрация галереи
 document.querySelectorAll('.filter-btn').forEach(button => {
-    button.addEventListener('click', () => {
-        const filter = button.dataset.filter;
-
-        // Обновляем активную кнопку
+    button.addEventListener('click', function() {
+        const filter = this.dataset.filter;
         document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
-
-        // Фильтруем элементы
+        this.classList.add('active');
         document.querySelectorAll('.gallery-item').forEach(item => {
             if (filter === 'all' || item.dataset.category === filter) {
                 item.style.display = 'block';
@@ -70,330 +108,3 @@ document.querySelectorAll('.filter-btn').forEach(button => {
     });
 });
 </script>
-{% endblock %}
-
-
-
-
-
-
-
-    <section class="gallery-section">
-        <div class="container">
-            <h2>Наши работы</h2>
-            
-            <!-- Фильтры по категориям -->
-            <div class="gallery-filters">
-                <button class="filter-btn active" data-filter="all">Все работы</button>
-                <button class="filter-btn" data-filter="bench">Скамейки</button>
-                <button class="filter-btn" data-filter="oven">Печи</button>
-                <button class="filter-btn" data-filter="weathervane">Флюгеры</button>
-                <button class="filter-btn" data-filter="auto">Авторемонт</button>
-                <button class="filter-btn" data-filter="metal">Металлоконструкции</button>
-                <button class="filter-btn" data-filter="barbecues">Мангалы</button>
-                <button class="filter-btn" data-filter="barbecueszone">Мангальные зоны</button>
-                <button class="filter-btn" data-filter="swing">Качели</button>
-                <button class="filter-btn" data-filter="shelving">Стелажи</button>
-                <button class="filter-btn" data-filter="house number">Номерная тобличка</button>
-                <button class="filter-btn" data-filter="pavilion">Беседка</button>
-
-            </div>
-
-            <!-- Галерея -->
-            <div class="gallery-grid">
-                <!-- Скамейки -->
-                <div class="gallery-item" data-category="bench">
-                    <img src="assets/image/work1.jpg" alt="Скамейка металлическая" onclick="openFullscreen(this)">
-                    <div class="gallery-caption">
-                        <h3>Скамейка</h3>
-
-                    </div>
-                </div>
-                <div class="gallery-item" data-category="bench">
-                    <img src="assets/image/work2.jpg" alt="Скамейка кованая" onclick="openFullscreen(this)">
-                    <div class="gallery-caption">
-                        <h3>Скамейка</h3>
-
-                    </div>
-                </div>
-                <div class="gallery-item" data-category="bench">
-                    <img src="assets/image/work3.jpg" alt="Скамейка парковая" onclick="openFullscreen(this)">
-                    <div class="gallery-caption">
-                        <h3>Скамейка</h3>
- 
-                    </div>
-                </div>
-
-                <!-- Печи -->
-                <div class="gallery-item" data-category="oven">
-                    <img src="assets/image/печь 1.jpg" alt="Металлическая печь" onclick="openFullscreen(this)">
-                    <div class="gallery-caption">
-                        <h3>Печь</h3>
-                        
-                    </div>
-                </div>
-                <div class="gallery-item" data-category="oven">
-                    <img src="assets/image/печь2.jpg" alt="Печь с узорами" onclick="openFullscreen(this)">
-                    <div class="gallery-caption">
-                        <h3>Печь</h3>
-                    
-                    </div>
-                </div>
-                <div class="gallery-item" data-category="oven">
-                    <img src="assets/image/печь 4.jpg" alt="Печь компактная" onclick="openFullscreen(this)">
-                    <div class="gallery-caption">
-                        <h3>Печь</h3>
-                        
-                    </div>
-                </div>
-
-                <!-- Флюгеры -->
-                <div class="gallery-item" data-category="weathervane">
-                    <img src="assets/image/флюгер1.jpg" alt="Декоративный флюгер" onclick="openFullscreen(this)">
-                    <div class="gallery-caption">
-                        <h3>Флюгер</h3>
-                       
-                    </div>
-                </div>
-                 <!-- мангалы -->
-                    <div class="gallery-item" data-category="barbecues">
-                    <img src="assets/image/мангал.jpg" alt="Мангал" onclick="openFullscreen(this)">
-                    <div class="gallery-caption">
-                        <h3>Мангал</h3>
-                       
-                    </div>
-                </div>
-                  <div class="gallery-item" data-category="barbecues">
-                    <img src="assets/image/мангал1.jpg" alt="Мангал" onclick="openFullscreen(this)">
-                    <div class="gallery-caption">
-                        <h3>Мангал</h3>
-                       
-                    </div>
-                </div>  
-                
-                <div class="gallery-item" data-category="barbecues">
-                    <img src="assets/image/мангал (2).jpg" alt="Мангал" onclick="openFullscreen(this)">
-                    <div class="gallery-caption">
-                        <h3>Мангал</h3>
-                       
-                    </div>
-                </div>  
-                
-                <div class="gallery-item" data-category="barbecues">
-                    <img src="assets/image/мангал (3).jpg" alt="Мангал" onclick="openFullscreen(this)">
-                    <div class="gallery-caption">
-                        <h3>Мангал</h3>
-                        
-                    </div>
-                </div>  
-                
-                <div class="gallery-item" data-category="barbecues">
-                    <img src="assets/image/мангал2.jpg" alt="Мангал" onclick="openFullscreen(this)">
-                    <div class="gallery-caption">
-                        <h3>Мангал</h3>
-                        
-                    </div>
-                </div>
-                
-                  <div class="gallery-item" data-category="barbecues">
-                    <img src="assets/image/мангал3.jpg" alt="Мангал" onclick="openFullscreen(this)">
-                    <div class="gallery-caption">
-                        <h3>Мангал</h3>
-                        
-                    </div>
-                </div> 
-<!-- Мангальная зона -->
-                <div class="gallery-item" data-category="barbecueszone">
-                    <img src="assets/image/мангальная зона.jpg" alt="Мангальная зона" onclick="openFullscreen(this)">
-                    <div class="gallery-caption">
-                        <h3>Мангальная зона</h3>
-                        
-                    </div>
-                </div>
-
-                <div class="gallery-item" data-category="barbecueszone">
-                    <img src="assets/image/мангальная зона (2).jpg" alt="Мангальная зона" onclick="openFullscreen(this)">
-                    <div class="gallery-caption">
-                        <h3>Мангальная зона</h3>
-                       
-                    </div>
-                </div>
-<!-- 
-                <div class="gallery-item" data-category="barbecueszone">
-                    <img src="assets/image/мангальная зона1.jpg" alt="Мангальная зона" onclick="openFullscreen(this)">
-                    <div class="gallery-caption">
-                        <h3>Мангальная зона</h3> 
-                        
-                    </div>
-                </div> -->
-                <!-- Качели -->
-                 <div class="gallery-item" data-category="swing">
-                    <img src="assets/image/качеля (2).jpg" alt="Качеля" onclick="openFullscreen(this)">
-                    <div class="gallery-caption">
-                        <h3>Качеля</h3>
-                        
-                    </div>
-                </div>
-
-                <div class="gallery-item" data-category="swing">
-                    <img src="assets/image/качеля.jpg" alt="Качеля" onclick="openFullscreen(this)">
-                    <div class="gallery-caption">
-                        <h3>Качеля</h3>
-                       
-                    </div>
-                </div>
-                <!-- Стелажи -->
-                 <div class="gallery-item" data-category="shelving">
-                    <img src="assets/image/стелаж.jpg" alt="Стелаж" onclick="openFullscreen(this)">
-                    <div class="gallery-caption">
-                        <h3>Стелаж</h3>
-                       
-                    </div>
-                </div>
-
-                <div class="gallery-item" data-category="shelving">
-                    <img src="assets/image/стилаж.jpg" alt="Стелаж" onclick="openFullscreen(this)">
-                    <div class="gallery-caption">
-                        <h3>Стелаж</h3>
-                        
-                    </div>
-                </div>
-
-                <div class="gallery-item" data-category="shelving">
-                    <img src="assets/image/стелаж (2).jpg" alt="Стелаж" onclick="openFullscreen(this)">
-                    <div class="gallery-caption">
-                        <h3>Стелаж</h3>
-                       
-                    </div>
-                </div>
-
-                <!-- Номерная тобличка -->
-                 <!-- <div class="gallery-item" data-category="house number">
-                    <img src="assets/image/стелаж (2).jpg" alt="Декаротивная тобличка с номером дома" onclick="openFullscreen(this)">
-                    <div class="gallery-caption">
-                        <h3>Декаротивная тобличка с номером дома</h3>
-                       
-                    </div>
-                </div> -->
-                <div class="gallery-item" data-category="house number">
-                    <img src="assets/image/номер дома.jpg" alt="Декаротивная тобличка с номером дома" onclick="openFullscreen(this)">
-                    <div class="gallery-caption">
-                        <h3>Декаротивная тобличка с номером дома</h3>
-                       
-                    </div>
-                </div>
-                <div class="gallery-item" data-category="house number">
-                    <img src="assets/image/номер дома2.jpg" alt="Декаротивная тобличка с номером дома" onclick="openFullscreen(this)">
-                    <div class="gallery-caption">
-                        <h3>Декаротивная тобличка с номером дома</h3>
-                       
-                    </div>
-                </div>
-                <div class="gallery-item" data-category="house number">
-                    <img src="assets/image/полтовская 15 а.jpg" alt="Декаротивная тобличка с номером дома" onclick="openFullscreen(this)">
-                    <div class="gallery-caption">
-                        <h3>Декаротивная тобличка с номером дома</h3>
-                        
-                    </div>
-                </div>
-                <!-- Метало конструкции -->
-                <div class="gallery-item" data-category="metal">
-                    <img src="assets/image/мет.jpg" alt="Метало конструкция" onclick="openFullscreen(this)">
-                    <div class="gallery-caption">
-                        <h3>Метало конструкция</h3>
-                       
-                    </div>
-                </div>
-
-                <!-- Беседка -->
-                <div class="gallery-item" data-category="pavilion">
-                    <img src="assets/image/беседка.jpg" alt="Беседка" onclick="openFullscreen(this)">
-                    <div class="gallery-caption">
-                        <h3>Беседка</h3>
-                      
-                    </div>
-                </div>
-
-
-
-            </div>
-        </div>
-    </section>
-
-   
-    <!-- Полноэкранный просмотр -->
-    <div id="fullscreenModal" class="fullscreen-modal">
-        <span class="close-fullscreen" onclick="closeFullscreen()">&times;</span>
-        <img class="fullscreen-content" id="fullscreenImage">
-        <div class="image-caption" id="fullscreenCaption"></div>
-    </div>
-
-    <section class="call-to-action">
-        <div class="container">
-            <h2>Хотите такую же качественную работу?</h2>
-            <p>Позвоните нам и сделайте заказ</p>
-            <a href="tel:+79873790039" class="btn btn-large">
-                <i class="fas fa-phone"></i> Сделать заказ
-            </a>
-        </div>
-    </section>
-
-    <!-- Подвал -->
-    <footer>
-        <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h3>Кстати варим</h3>
-                    <p>Профессиональные сварочные работы</p>
-                </div>
-                <div class="footer-col">
-                    <h3>Контакты</h3>
-                    <p><i class="fas fa-phone"></i> +7 (987) 379-00-39</p>
-                    <p><i class="fas fa-map-marker-alt"></i> г. Лесозаводск</p>
-                </div>
-                <div class="footer-col">
-                    <h3>Часы работы</h3>
-                    <p>Пн-Вс: 8:00 - 18:00</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Кстати варим. Все права защищены.</p>
-                <div class="social-links">
-                    <a href="https://vk.com/kstativarim"><i class="fab fa-vk"></i></a>
-                    <a href="http:wa.me/79873790039"><i class="fab fa-whatsapp"></i></a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script src="assets/Js/script.js"></script>
-</body>
-</html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!-- Подвал -->
-    <footer>
-        <!-- Подвал (как в index.html) -->
-    </footer>
-    <script src="assets/Js/script.js"></script>
-</body>
-</html>
